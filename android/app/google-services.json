@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "329377985187",
+    "project_id": "smart-health-recommendation",
+    "storage_bucket": "smart-health-recommendation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329377985187:android:a2522e104984ae0b9c0516",
+        "android_client_info": {
+          "package_name": "com.smarthealthrecommendation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329377985187-0f0qnm46kv33n1h2aeuquef2bgq74lna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuScqKNt8XjytiiIeE32EMixWDZPPG5Pg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329377985187-0f0qnm46kv33n1h2aeuquef2bgq74lna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
