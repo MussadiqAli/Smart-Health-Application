@@ -20,33 +20,33 @@ class Message extends React.Component {
   }
 
 
-  sendMsg = () => {
+  // sendMsg = () => {
 
-    let combineUID = this.uidMerge(this.state.crrUser.uid, this.state.chatUser.uid)
+  //   let combineUID = this.uidMerge(this.state.crrUser.uid, this.state.chatUser.uid)
 
-    database().ref('/').child(`chats/${combineUID}`).push({
-      message: this.state.message,
-      name: this.state.crrUser.name,
-      uid: this.state.crrUser.uid
-    })
+  //   database().ref('/').child(`chats/${combineUID}`).push({
+  //     message: this.state.message,
+  //     name: this.state.crrUser.name,
+  //     uid: this.state.crrUser.uid
+  //   })
 
-    this.state.message = '';
-  }
+  //   this.state.message = '';
+  // }
 
 
-  uidMerge = (uid1, uid2) => {
-    if (uid1 < uid2) {
-      return uid1 + uid2
-    } else {
-      return uid2 + uid1;
-    }
-  }
+  // uidMerge = (uid1, uid2) => {
+  //   if (uid1 < uid2) {
+  //     return uid1 + uid2
+  //   } else {
+  //     return uid2 + uid1;
+  //   }
+  // }
 
 
   
   getMessages = () => {
-    let combineUID = this.uidMerge(this.state.crrUser.uid, this.state.chatUser.uid)
-    database().ref('/').child(`chats/${combineUID}`).on('child_added', (m) => {
+    // let combineUID = this.uidMerge(this.state.crrUser.uid, this.state.chatUser.uid)
+    database().ref('/').child(`recommendations/${this.state.chatUser.uid}`).on('child_added', (m) => {
       this.state.chats.push(m.val())
       this.setState({
         chats: this.state.chats
@@ -58,6 +58,7 @@ class Message extends React.Component {
 
 
   render() {
+    
     return (
       <View style={{ flex: 1 }}>
 
@@ -74,7 +75,7 @@ class Message extends React.Component {
           <Text
             ellipsizeMode='tail'
             numberOfLines={1}
-            style={styles.headerTxt}>{this.state.chatUser.name}</Text>
+            style={styles.headerTxt}>Expert ({this.state.chatUser.name})</Text>
         </View>
 
         <ScrollView>
@@ -82,15 +83,15 @@ class Message extends React.Component {
             this.state.chats != [] ?
               this.state.chats.map((v, k) => {
                 return (
-                  <View style={v.uid == this.state.crrUser.uid ? styles.outMsg : styles.inMsg} key={k}>
-                    <Text style={v.uid == this.state.crrUser.uid ? styles.outTxt : styles.inTxt}>{v.message}</Text>
+                  <View style={ styles.inMsg} key={k}>
+                    <Text style={styles.inTxt}>{v.message}</Text>
                   </View>
                 )
               }) : null
           }
         </ScrollView>
 
-        <View style={styles.msgBox}>
+        {/* <View style={styles.msgBox}>
           <TextInput
             placeholder="Type message here..."
             style={styles.inputMsg}
@@ -100,7 +101,7 @@ class Message extends React.Component {
             })}
           />
           <Icon onPress={() => this.sendMsg()} name="send" size={25} color="#007fcb" />
-        </View>
+        </View> */}
       </View>
     )
   }

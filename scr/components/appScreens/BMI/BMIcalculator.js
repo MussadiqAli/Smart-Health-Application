@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Input } from 'react-native-elements';
 
@@ -131,9 +131,9 @@ const BMI = () => {
             </View>
         }
 
-        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 24,color:'gray' }}>{
+        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 24, color: 'gray' }}>{
           bmi <= 18.4 ? "Under Weight" :
-            bmi >= 18.5 && bmi <= 24.9 ? "Healty Weight" :
+            bmi >= 18.5 && bmi <= 24.9 ? "Healthy Weight" :
               bmi >= 25 ? "Over Weight" : null
         }</Text>
       </View>
@@ -177,15 +177,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  div:{
-    width: Dimensions.get('window').width-30,
-    backgroundColor:'white',
-    padding:20,
+  div: {
+    width: Dimensions.get('window').width - 30,
+    backgroundColor: 'white',
+    padding: 20,
     marginVertical: 10,
-    borderRadius:10,
+    borderRadius: 10,
     elevation: 2,
-    flexDirection:'row',
-    alignItems:'center', 
-    justifyContent:'center'
-},
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 })

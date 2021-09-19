@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, View, Text, SafeAreaView, StyleSheet, Image, Animated, ScrollView } from 'react-native';
+import { Dimensions, View, Text, SafeAreaView, StyleSheet, Image, Animated, ScrollView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Img from '../../images/logo/logo_png_name.png'
 import { TouchableOpacity } from 'react-native';
@@ -15,6 +15,7 @@ import diet from '../../images/diets.png'
 import water from '../../images/water.png'
 import chat from '../../images/quotes.png'
 import logout from '../../images/logout.png'
+import Mental from '../../images/mentalHealth.png'
 
 
 export default function Main({ navigation }) {
@@ -59,22 +60,24 @@ export default function Main({ navigation }) {
   return (
 
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#007fcb" />
       <View style={{ justifyContent: 'flex-start', }}>
         <View style={{
           backgroundColor: 'white',
           borderRadius: 10,
           marginTop: 10,
           marginLeft: 10,
-          width: (Dimensions.get('window').width*4)/10
+          width: (Dimensions.get('window').width * 4) / 10
         }}>
           <Image source={Img} style={{ width: '100%', height: 140, resizeMode: 'contain' }} />
         </View>
         <View style={{ flexGrow: 1, marginTop: 30 }}>
           {TabBtns(currentTab, setCurrentTab, "Workouts", workout, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "Diets", diet, navigation, Drawer)}
+          {TabBtns(currentTab, setCurrentTab, "MentalHealth", Mental, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "Water", water, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "BMI", bmi, navigation, Drawer)}
-          {TabBtns(currentTab, setCurrentTab, "Footsteps Counter", foot, navigation, Drawer)}
+          {TabBtns(currentTab, setCurrentTab, "Footsteps Tracking", foot, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "Smart Recommendations", chat, navigation, Drawer)}
         </View>
         <View>
@@ -184,6 +187,21 @@ export default function Main({ navigation }) {
               </View>
             </TouchableOpacity>
 
+
+            <TouchableOpacity onPress={() => {
+              if (showMenu) {
+                Drawer();
+              }
+              navigation.navigate("MentalHealth")
+            }}>
+              <View style={styles.card}>
+                <Image source={Mental} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Mental Health</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+
             <TouchableOpacity onPress={() => {
               if (showMenu) {
                 Drawer();
@@ -218,7 +236,7 @@ export default function Main({ navigation }) {
             }}>
               <View style={styles.card}>
                 <Image source={foot} style={{ ...styles.cardImg, width: '16%' }} />
-                <Text style={styles.cardTxt}>Footsteps Counter</Text>
+                <Text style={styles.cardTxt}>Footsteps Tracking</Text>
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
@@ -307,8 +325,8 @@ const TabBtns = (currentTab, setCurrentTab, title, image, navigation, Drawer) =>
     <TouchableOpacity onPress={() => {
       if (title == "LogOut") {
         auth()
-        .signOut()
-        .then(() => console.log('User signed out!'));
+          .signOut()
+          .then(() => console.log('User signed out!'));
       } else {
         Drawer();
         navigation.navigate(title)
@@ -323,7 +341,7 @@ const TabBtns = (currentTab, setCurrentTab, title, image, navigation, Drawer) =>
         // paddingRight: 10,
         marginTop: 10
       }}>
-        <Image source={image} style={{ width: 30, height: title=='Footsteps Counter'?35: 30, tintColor: 'white' }} />
+        <Image source={image} style={{ width: 30, height: title == 'Footsteps Counter' ? 35 : 30, tintColor: 'white' }} />
         <Text style={{
           fontSize: 15,
           fontWeight: '400',

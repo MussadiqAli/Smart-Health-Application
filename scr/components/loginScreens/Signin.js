@@ -7,8 +7,8 @@ import auth from '@react-native-firebase/auth';
 import AppPreLoader from '../appScreens/AppPreLoader';
 
 
-const Signin = ({ navigation}) => {
-  
+const Signin = ({ navigation }) => {
+
   const [Email, SetEmail] = useState();
   const [Password, SetPassword] = useState();
   const [msg, setMsg] = useState();
@@ -41,7 +41,7 @@ const Signin = ({ navigation}) => {
     auth()
       .signInWithEmailAndPassword(Email, Password)
       .then(() => {
-        // console.log('User account signed in!');
+        console.log('User account signed in!');
         // setWrongAlert('signed in!')
       })
       .catch(error => {
@@ -49,7 +49,7 @@ const Signin = ({ navigation}) => {
         if (error.code === 'auth/user-not-found') {
           setMsg("There is no user record corresponding to this email")
         }
-        
+
 
         if (error.code === 'auth/invalid-email') {
           setMsg('That email address is invalid!')
@@ -58,13 +58,16 @@ const Signin = ({ navigation}) => {
         if (error.code === 'auth/wrong-password') {
           setMsg('Wrong Password!')
         }
-        // console.error(error);
+        if (error.code === 'auth/network-request-failed') {
+          setMsg('Network error, Please check your connection')
+        }
+        console.log(error);
       });
   }
 
-  if(loader){
-    return(
-      <AppPreLoader/>
+  if (loader) {
+    return (
+      <AppPreLoader />
     )
   }
 
@@ -105,7 +108,7 @@ const Signin = ({ navigation}) => {
             onChangeText={(t) => SetPassword(t)}
             onFocus={() => setPasswordStyle({ lable: { color: '#007fcb', fontSize: 14 }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
             onBlur={() => setPasswordStyle({ lable: { color: 'gray', fontSize: 14 }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
-            containerStyle={{...styles.inputContainer, marginBottom:20}}
+            containerStyle={{ ...styles.inputContainer, marginBottom: 20 }}
             rightIcon={
               <Icon
                 name='lock'
@@ -114,11 +117,11 @@ const Signin = ({ navigation}) => {
               />
             }
           />
-          <Text style={{ color: 'red', fontSize: 10, marginBottom: 20, marginLeft:10 }}>{msg}</Text>
+          <Text style={{ color: 'red', fontSize: 10, marginBottom: 20, marginLeft: 10 }}>{msg}</Text>
         </View>
 
         <TouchableOpacity
-          onPress={()=>signin()}
+          onPress={() => signin()}
           style={styles.btn}>
           <Text style={{ color: "#fff" }}> Sign in </Text>
         </TouchableOpacity>
@@ -126,7 +129,7 @@ const Signin = ({ navigation}) => {
 
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%', margin: 30 }}>
-          <TouchableOpacity onPress={()=>navigation.navigate('ForgatPassword')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgatPassword')}>
             <Text style={styles.btnBelow}> Forgat Password </Text>
           </TouchableOpacity>
 

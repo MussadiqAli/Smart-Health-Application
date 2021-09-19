@@ -20,13 +20,42 @@ class UserList extends React.Component {
       profilePic: this.props.route.params.user.photoURL,
       uid: this.props.route.params.user.uid
     },
-    allUsers:''
+    allUsers:'',
+    message:'',
+    recommendations:[],
+    counter: -1
   }
 
+  
   componentDidMount(){
-    this.getAllUsers()
+    if(this.state.user.profilePic=='expert'){
+      this.getMessages()
+    }else if(this.state.user.profilePic=='user'){
+      this.getAllUsers()
+    }
   }
 
+
+  sendMsg = () =>{
+    database().ref('/').child(`recommendations/${this.state.user.uid}`).push({
+      message: this.state.message,
+      name: this.state.user.name,
+      uid: this.state.user.uid
+    })
+    this.state.message=''
+    // this.setState({
+    //   message:''
+    // })
+  }
+
+  getMessages = () => {
+    database().ref('/').child(`recommendations/${this.state.user.uid}`).on('child_added', (m) => {
+      this.state.recommendations.push(m.val())
+      this.setState({
+        recommendations: this.state.recommendations
+      })
+    })
+  }
 
   getAllUsers = () => {
     let userList = []
@@ -40,7 +69,7 @@ class UserList extends React.Component {
 
 
   render() {
-    // console.log(this.props.route.params.user)
+    // console.log(this.state.allUsers)
     return (
       <View style={styles.container}>
         {/* ======= header ========= */}
@@ -60,11 +89,13 @@ class UserList extends React.Component {
             style={styles.headerTxt}>{this.state.user.name}</Text>
         </View>
 
-
+        <ScrollView>
         {
-          this.state.allUsers != "" ?
+          this.state.allUsers != "" && this.state.user.profilePic=='user' ?
           this.state.allUsers.map((val, key) => {
-              return val.uid != this.state.user.uid? (
+            if(val.uid != this.state.user.uid && val.profilePic=='expert'){
+              this.state.counter = this.state.counter+1
+              return (
                 <TouchableOpacity 
                   onPress={()=>this.props.navigation.navigate('Message',{'chatUser':val, 'crrUser':this.state.user})}
                   key={key} 
@@ -72,15 +103,52 @@ class UserList extends React.Component {
                     <View style={{flexDirection:"row", alignItems:'center'}}>
                   <Image style={styles.usrImg} source={userImg} />
                   <Text style={{ marginLeft: 20, color: '#404040', }}>
-                    {val.name}
+                    Expert ({val.name})
                   </Text>
                   </View>
                   <Icon name="chevron-forward-circle" size={25} color="#469433" />
                 </TouchableOpacity>
-              ):null
+              )
+            }
+              
             })
             :
             null
+        }
+
+        {
+          this.state.user.profilePic=='expert'?
+          <Text style={{color:'gray', textAlign: 'center', fontSize:12}}>Type and Send Recommendations to all Users</Text>:
+          null
+        }
+        
+        {
+            this.state.recommendations != [] && this.state.user.profilePic=='expert' ?
+              this.state.recommendations.map((v, k) => {
+                return (
+                  <View style={styles.recommend} key={k}>
+                    <Text style={styles.recommendTxt}>{v.message}</Text>
+                  </View>
+                )
+              }) : null
+          }
+          </ScrollView>
+
+        {
+          this.state.user.profilePic=='expert'?
+          <View style={styles.msgBox}>
+          <TextInput
+            placeholder="Type Recommendation Here..."
+            style={styles.inputMsg}
+            value={this.state.message}
+            onChangeText={(t) => this.setState({
+              message: t
+            })}
+          />
+          <Icon onPress={() => this.sendMsg()} name="send" size={25} color="#007fcb" />
+        </View>
+        :
+        null
         }
 
       </View>
@@ -144,6 +212,33 @@ const styles = StyleSheet.create({
     width: '80%',
     fontSize: 17,
     marginLeft: 20
+  },
+  msgBox: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: "#d0d0d0",
+    width: Dimensions.get('window').width,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#007fcb'
+  },
+  inputMsg: {
+    flex: 1,
+    marginRight: 15
+  },
+  recommend: {
+    backgroundColor: '#007fcb',
+    margin: 10,
+    padding: 10,
+    borderRadius: 10,
+    width: '70%',
+    alignSelf:'flex-end'
+  },
+  recommendTxt: {
+    color: 'white',
   },
 
 })

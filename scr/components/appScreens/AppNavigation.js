@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, StatusBar } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -12,6 +12,10 @@ import Water from './water/Water';
 import Chats from './Chat/Chats';
 import BMI from './BMI/BMIcalculator';
 import database from '@react-native-firebase/database';
+import MentalHealth from './MentalHealth/MentalHealth';
+import Meditation from './MentalHealth/Meditation';
+import Quotes from './MentalHealth/Quotes';
+
 
 
 const Drawer = createDrawerNavigator();
@@ -29,7 +33,7 @@ export default function AppNavigation({initialParams}) {
     profilePic: initialParams.user.photoURL,
     uid: initialParams.user.uid
   })
-
+  
    const saveUser = () =>{
     database().ref('/').child(`users/${userData.uid}`).set(userData)
   }
@@ -44,9 +48,12 @@ export default function AppNavigation({initialParams}) {
         <Stack.Screen name="Workouts" component={Workouts} options={{headerShown:false}}/>
         <Stack.Screen name="Diets" component={Diets}  options={{headerShown:false}} />
         <Stack.Screen name="Water" component={Water} options={{title: "Daily Drink Target"}} />
-        <Stack.Screen name="Footsteps Counter" component={FootStepCount} options={{title: "Walking Target"}} />
+        <Stack.Screen name="Footsteps Counter" component={FootStepCount} options={{title: "Footsteps Tracker"}} />
         <Stack.Screen name="Chats" component={Chats} options={{headerShown:false}} initialParams={{'user': initialParams.user}} />
         <Stack.Screen name="BMI" component={BMI} options={{title:'BMI Calculator'}}/>
+        <Stack.Screen name="MentalHealth" component={MentalHealth} options={{title:'Mental Health'}}/>
+        <Stack.Screen name="Meditation" component={Meditation} options={{title:'Meditation Techniques'}}/>
+        <Stack.Screen name="Quotes" component={Quotes} options={{title:'Quotes'}}/>
     </Stack.Navigator>
   );
 }

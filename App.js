@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import SplashScreen from 'react-native-splash-screen'
+import FootStepCount from './scr/components/appScreens/FootSteps/FootStepCounter';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,7 @@ function Login() {
   }, []);
   
   if (initializing) return null;
-
+  
   if (!user) {
     return (
       <Stack.Navigator initialRouteName="LoginScreen">
